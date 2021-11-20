@@ -56,7 +56,9 @@ if not hspoon_list then
         "CountDown",
         -- "HCalendar",
         -- "HSaria2",
-        -- "HSearch",
+
+        "HSearch",
+        -- "SpeedMenu",
         "WinWin",
         "FnMate",
         "Wifi",
@@ -176,6 +178,12 @@ if spoon.ClipShow then
     end)
     cmodal:bind('', 'L', 'Open in Sublime Text', function()
         spoon.ClipShow:openWithCommand("/usr/local/bin/subl")
+        spoon.ClipShow:toggleShow()
+        spoon.ModalMgr:deactivate({"clipshowM"})
+    end)
+
+    cmodal:bind('', 'V', '使用VsCode打开', function()
+        spoon.ClipShow:openWithCommand("/usr/local/bin/code")
         spoon.ClipShow:toggleShow()
         spoon.ModalMgr:deactivate({"clipshowM"})
     end)
@@ -378,7 +386,7 @@ end
 
 ----------------------------------------------------------------------------------------------------
 -- Register Hammerspoon console
-hsconsole_keys = hsconsole_keys or {"alt", "Z"}
+hsconsole_keys = hsconsole_keys or {{"cmd", "shift", "ctrl"}, "Z"}
 if string.len(hsconsole_keys[2]) > 0 then
     spoon.ModalMgr.supervisor:bind(hsconsole_keys[1], hsconsole_keys[2], "Toggle Hammerspoon Console", function() hs.toggleConsole() end)
 end
@@ -386,3 +394,26 @@ end
 ----------------------------------------------------------------------------------------------------
 -- Finally we initialize ModalMgr supervisor
 spoon.ModalMgr.supervisor:enter()
+
+----------------------------------------------------------------------------------------------------
+-- Move an application to other monitor
+function moveWindowToDisplay(d)
+    return function()
+      local displays = hs.screen.allScreens()
+      local win = hs.window.focusedWindow()
+      win:moveToScreen(displays[d], false, true)
+    end
+  end
+
+function winMoveAndResize(arg)
+    return function()
+        spoon.WinWin:stash() 
+        spoon.WinWin:moveAndResize("fullscreen")
+    end
+  end
+  
+hs.hotkey.bind({"alt"}, "1", moveWindowToDisplay(1))
+hs.hotkey.bind({"alt"}, "2", moveWindowToDisplay(2))
+hs.hotkey.bind({"alt"}, "3", moveWindowToDisplay(3))
+hs.hotkey.bind({"alt"}, "5", winMoveAndResize("fullscreen"))
+  ----------------------------------------------------------------------------------------------------
