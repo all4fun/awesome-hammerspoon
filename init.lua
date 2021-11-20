@@ -27,7 +27,20 @@ end
 
 hsreload_keys = hsreload_keys or {{"cmd", "shift", "ctrl"}, "R"}
 if string.len(hsreload_keys[2]) > 0 then
-    hs.hotkey.bind(hsreload_keys[1], hsreload_keys[2], "Reload Configuration", function() hs.reload() end)
+    hs.hotkey.bind(hsreload_keys[1], hsreload_keys[2], "Reload Configuration", function()
+        -- hs.notify.new({title="Hammerspoon", informativeText="重新载入配置..."}):send()
+        hs.reload()
+    end)
+    hs.alert.show("重新载入Hammerspoon配置...")
+
+
+    -- 自定义命令 by wangheng®
+    hs.hotkey.bind({"cmd", "ctrl"}, "1", function()
+        -- hs.alert.show( "准备ORC识别屏幕内容...")
+        hs.notify.new({title="Hammerspoon", informativeText="准备ORC识别屏幕内容..."}):send()
+        hs.application.open('/usr/local/bin/ocr')
+        -- os.execute('/usr/local/bin/ocr')
+      end)
 end
 
 -- ModalMgr Spoon must be loaded explicitly, because this repository heavily relies upon it.
@@ -37,16 +50,17 @@ hs.loadSpoon("ModalMgr")
 if not hspoon_list then
     hspoon_list = {
         "AClock",
-        "BingDaily",
-        "CircleClock",
+        -- "BingDaily",
+        -- "CircleClock",
         "ClipShow",
         "CountDown",
-        "HCalendar",
-        "HSaria2",
-        "HSearch",
-        "SpeedMenu",
+        -- "HCalendar",
+        -- "HSaria2",
+        -- "HSearch",
         "WinWin",
         "FnMate",
+        "Wifi",
+        "SleepEvent",
     }
 end
 
@@ -78,7 +92,8 @@ if not hsapp_list then
     hsapp_list = {
         {key = 'f', name = 'Finder'},
         {key = 's', name = 'Safari'},
-        {key = 't', name = 'Terminal'},
+        -- {key = 't', name = 'Terminal'},
+        {key = 't', name = 'iTerm'},
         {key = 'v', id = 'com.apple.ActivityMonitor'},
         {key = 'y', id = 'com.apple.systempreferences'},
     }

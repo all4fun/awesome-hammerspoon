@@ -1,0 +1,41 @@
+[
+  {
+    "Constant" : [
+
+    ],
+    "submodules" : [
+
+    ],
+    "Function" : [
+
+    ],
+    "Variable" : [
+
+    ],
+    "stripped_doc" : [
+
+    ],
+    "desc" : "",
+    "type" : "Module",
+    "Deprecated" : [
+
+    ],
+    "Constructor" : [
+
+    ],
+    "doc" : "接口文档: https:\/\/www.hammerspoon.org\/docs\/hs.caffeinate.watcher.html",
+    "Method" : [
+
+    ],
+    "Command" : [
+
+    ],
+    "Field" : [
+
+    ],
+    "items" : [
+
+    ],
+    "name" : "sleep_event"
+  }
+]
