@@ -394,9 +394,49 @@ function winMoveAndResize(arg)
         spoon.WinWin:moveAndResize("fullscreen")
     end
   end
-  
-hs.hotkey.bind({"alt"}, "1", moveWindowToDisplay(1))
-hs.hotkey.bind({"alt"}, "2", moveWindowToDisplay(2))
+
+function myMoveAndResize(option)
+    local cwin = hs.window.focusedWindow()
+    if cwin then
+        local cscreen = cwin:screen()
+        local cres = cscreen:fullFrame()
+        local stepw = cres.w/obj.gridparts
+        local steph = cres.h/obj.gridparts
+        local wf = cwin:frame()
+        if option == "halfleft" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h})
+        elseif option == "halfright" then
+            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h})
+        elseif option == "halfup" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h/2})
+        elseif option == "halfdown" then
+            cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w, h=cres.h/2})
+        elseif option == "cornerNW" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h/2})
+        elseif option == "cornerNE" then
+            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h/2})
+        elseif option == "cornerSW" then
+            cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
+        elseif option == "cornerSE" then
+            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
+        elseif option == "fullscreen" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h})
+        elseif option == "center" then
+            cwin:centerOnScreen()
+        elseif option == "expand" then
+            cwin:setFrame({x=wf.x-stepw, y=wf.y-steph, w=wf.w+(stepw*2), h=wf.h+(steph*2)})
+        elseif option == "shrink" then
+            cwin:setFrame({x=wf.x+stepw, y=wf.y+steph, w=wf.w-(stepw*2), h=wf.h-(steph*2)})
+        end
+    else
+        hs.alert.show("No focused window!")
+    end
+end
+
+
+hs.hotkey.bind({"alt"}, "1", moveWindowToDisplay(2))
+hs.hotkey.bind({"alt"}, "2", moveWindowToDisplay(1))
 hs.hotkey.bind({"alt"}, "3", moveWindowToDisplay(3))
 hs.hotkey.bind({"alt"}, "5", winMoveAndResize("fullscreen"))
+hs.hotkey.bind({"alt"}, "6", function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("cornerNW") spoon.WinWin:moveAndResize("center") end)
   ----------------------------------------------------------------------------------------------------
